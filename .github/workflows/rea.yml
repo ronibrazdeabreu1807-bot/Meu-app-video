@@ -1,4 +1,4 @@
-name: Preparar REA
+name: Preparar REA e OpenCode
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  rea:
+  preparar:
     runs-on: ubuntu-latest
     steps:
       - name: Baixar o projeto
@@ -18,5 +18,13 @@ jobs:
         with:
           node-version: 24
 
-      - name: Verificar o REA
+      - name: Instalar OpenCode na nuvem
+        run: curl -fsSL https://opencode.ai/install | bash
+
+      - name: Verificar OpenCode
+        run: |
+          export PATH="$HOME/.opencode/bin:$PATH"
+          opencode --version
+
+      - name: Verificar REA
         run: npx -y rea-agents@6.7.0 doctor
